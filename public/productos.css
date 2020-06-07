@@ -1,20 +1,22 @@
-.card{
+.cardProducto{
     width: 40rem; 
     margin: auto; 
     width: 50%; 
     padding: 10px;
 }
 
-.img {
+.imgProducto {
     width: 600px;
     height: 600px;
 }
 
-.btn {
+.btnCompra {
     background-color: green;
     color: white;
 }
 
-.fas.fa-cart-plus.fa-lg{
+.iconoCarrito{
     color:white;
 }
+
+

@@ -1,12 +1,14 @@
 function createNode(){
     var card = document.createElement("div");
-    card.classList.add("card")
+    card.classList.add("card");
+    card.classList.add("cardProducto");
 
     var imagen = document.createElement("img");
-    imagen.classList.add("img")
-    card.appendChild("imagen")
+    imagen.classList.add("imgProducto");
+    card.appendChild(imagen);
 
     var cardBody = document.createElement("div");
+    cardBody.classList.add("card-body");
     
       var nombre = document.createElement("h5");
       nombre.appendChild(document.createTextNode("Nombre producto"));
@@ -22,13 +24,19 @@ function createNode(){
       
       var boton = document.createElement("a");
       boton.classList.add("btn");
+      boton.classList.add("btnCompra");
 
         var icon = document.createElement("i");
-        icon.classList.add("fas.fa-cart-plus.fa-lg");
+        icon.classList.add("fas");
+        icon.classList.add("fa-cart-plus");
+        icon.classList.add("fa-lg");
+        icon.classList.add("iconoCarrito");
         boton.appendChild(icon);
 
         var btnText = document.createElement("p");
+        btnText.classList.add("iconoCarrito");
         btnText.appendChild(document.createTextNode("Agregar al carro"));
+        
         boton.appendChild(btnText);
       
       cardBody.appendChild(boton);
