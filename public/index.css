@@ -52,3 +52,25 @@ body {
   border-top-right-radius: 0;
 }
 
+.cardProducto{
+  width: 40rem; 
+  margin: auto; 
+  width: 50%; 
+  padding: 10px;
+}
+
+.imgProducto {
+  width: 600px;
+  height: 600px;
+}
+
+.btnCompra {
+  background-color: green;
+  color: white;
+}
+
+.iconoCarrito{
+  color:white;
+}
+
+
