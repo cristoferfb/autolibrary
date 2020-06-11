@@ -77,3 +77,10 @@ body {
 .iconoCarrito{
   color:white;
 }
+
+.img-thumbnail {
+  height: 30px;
+}
+.cartNodeCount {
+  width: 30px;
+}
