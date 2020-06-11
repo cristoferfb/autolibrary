@@ -16,6 +16,7 @@ function hideAll () {
 	$('#user').css('display', 'none')
 }
 
+// evaluate login
 function evaluateLogin () {
 	switch ($('#inputUser').val()) {
     case 'admin':
@@ -26,10 +27,39 @@ function evaluateLogin () {
   }
 }
 
+// add product to cart array
+function addProductToCart (id) {
+  // check if product exist
+  let flag = false
+  _cart.forEach( product => {
+    if (product.id == id) {
+      flag = true
+    }
+  })
+  if (flag) return
+  let product = getProduct(id)
+  _cart.push(product)
+  addCartNode(product)
+}
+
+// get a product node for insert in DOM
+function getProductNode (product) {
+  return $('<div class="card mb-3"></div>').append(
+    $('<img src="'+product.img+'" class="card-img-top">'),
+    $('<div class="card-body"></div>').append(
+      $('<h5 class="card-title"></h5>').text(product.name),
+      $('<h5 class="card-title"></h5>').text("$"+product.value),
+      $('<btn class="btn btn-primary" onclick="addProductToCart('+product.id+')"></btn>')
+        .text("Comprar")
+    )
+  )
+}
+
+// get a cart node for insert in DOM
 function getCartNode (product) {
   return $('<li class="list-group-item"></li>').append(
     $('<div class="row"></div>').append(
-      $('<div class="col-2"></div>').append(
+      $('<div class="col-xs-2"></div>').append(
         $('<img src="'+product.img+'" class="img-thumbnail"></img>')
       ),
       $('<div class="col-4"></div>').text(product.name),
@@ -46,32 +76,6 @@ function getCartNode (product) {
   )
 }
 
-// add product to cart array
-function addProductToCart (id) {
-  let product = getProduct(id)
-  _cart.push(product)
-  fillCart()
-}
-
-// Fill cart node with product nodes from cart array
-function fillCart () {
-  _cart.forEach(product => {
-    $("cart").append(getCartNode(product))
-  })
-}
-
-// get a product node for insert in DOM
-function getProductNode (product) {
-  return $('<div class="card mb-3"></div>').append(
-    $('<img src="'+product.img+'" class="card-img-top">'),
-    $('<div class="card-body"></div>').append(
-      $('<h5 class="card-title"></h5>').text(product.name),
-      $('<h5 class="card-title"></h5>').text("$"+product.value),
-      $('<a href="#" class="btn btn-primary" onclick="">Comprar</a>')
-    )
-  )
-}
-
 // fill gallery node with product nodes
 function fillProductGallery () {
   getProducts().forEach(product => {
@@ -82,6 +86,12 @@ function fillProductGallery () {
   })
 }
 
+// Fill cart node with product nodes from cart array
+function addCartNode (product) {
+  $('#cart').append(getCartNode(product))
+}
+
+
 // get products from api
 function getProducts () {
   let products = _products
@@ -91,6 +101,10 @@ function getProducts () {
 // get product by id
 function getProduct (id) {
   return _products[id]
+}
+
+function getCart () {
+  return _cart
 }
 
 let _products = [{
