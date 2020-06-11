@@ -28,14 +28,28 @@
 			</form>
 		</div>
 		<div id="admin" class="container">
-			<h1>Admin, world!</h1>
+			<nav class="navbar">
+				<h1 class="navbar-brand" href="#">AutoLibrary</h1>
+				<button class="btn btn-outline-primary" onclick="goTo('login')">
+					<i class="fas fa-sign-out-alt"></i>
+				</button>
+			</nav>
+			<div class="card">
+				<ul class="list-group" id="orders">
+				</ul>
+			</div>
 		</div>
 		<div id="user" class="container">
 			<nav class="navbar">
 				<h1 class="navbar-brand" href="#">AutoLibrary</h1>
-			  <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#cartContainer" aria-expanded="false" aria-controls="cartContainer">
-			  	<i class="fas fa-shopping-cart"></i>
-			  </button>
+				<div>
+					<button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#cartContainer" aria-expanded="false" aria-controls="cartContainer">
+						<i class="fas fa-shopping-cart"></i>
+					</button>
+					<button class="btn btn-outline-primary" onclick="goTo('login')">
+						<i class="fas fa-sign-out-alt"></i>
+					</button>
+				</div>
 			</nav>
 			<div class="collapse mb-3" id="cartContainer">
 			  <div class="card card-body">
@@ -44,10 +58,7 @@
 			  	<button class="btn btn-primary float-right" onclick="processOrder()">Hacer pedido</button>
 			  </div>
 			</div>
-			<div id="products" class="row">
-				
-				
-			</div>
+			<div id="products" class="row"></div>
 		</div>
 		<!-- Optional JavaScript -->
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

@@ -23,10 +23,13 @@ function evaluateLogin () {
   userEmail = $('#inputUser').val()
 	switch (userEmail) {
     case 'admin':
+      fillOrders()
       goTo('admin')
+      break
     case 'user':
       fillProductGallery()
       goTo('user')
+      break
   }
 }
 
@@ -89,6 +92,39 @@ function getCartNode (product) {
     ) 
   )
 }
+
+function getProductOrderNode (order) {
+  let products = $('<div></div>')
+  order.forEach((product, index) => {
+    if (index != 0)
+      products.append(getCartNode(product))
+  })
+
+  return products
+}
+
+function getOrderNode (order, index) {
+  return $('<a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapseExample'+index+'" role="button" aria-expanded="false" aria-controls="collapseExample'+index+'"></a>')
+    .append(
+      "#"+(index+1)+" "+order[0].name,
+      $('<div class="collapse" id="collapseExample'+index+'"></div>').append(
+        getProductOrderNode(order)
+      )
+    )
+}
+
+function fillOrders () {
+  _orders.forEach((order, index)=>{
+    $("#orders").append(getOrderNode(order, index))
+  })
+}
+
+// <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+//   Pedido de juanito
+//   <div class="collapse" id="collapseExample">
+//     <div id="test"></div>
+//   </div>  
+// </a>
 
 function removeFromCart (node, id) {
   $(node).parent().parent().parent().remove()
