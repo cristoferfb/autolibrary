@@ -1,3 +1,5 @@
+let userEmail = ""
+
 // Go to specific view (login, user, admin)
 function goTo (name) {
 	hideAll()
@@ -18,13 +20,25 @@ function hideAll () {
 
 // evaluate login
 function evaluateLogin () {
-	switch ($('#inputUser').val()) {
+  userEmail = $('#inputUser').val()
+	switch (userEmail) {
     case 'admin':
       goTo('admin')
     case 'user':
       fillProductGallery()
       goTo('user')
   }
+}
+
+function processOrder () {
+  let order = [{name: userEmail}].concat(_cart)
+
+  $('.cartNodeCount').map((index, node) => {
+    order[index+1].count = parseInt($(node).val())
+  })
+  _cart = []
+  $("#cart").empty()
+  _orders.push(order)
 }
 
 // add product to cart array
@@ -68,12 +82,20 @@ function getCartNode (product) {
         $('<input value="1" class="cartNodeCount">')
       ),
       $('<div class="col text-right"></div>').append(
-        $('<button class="btn btn-danger"></button>').append(
+        $('<button class="btn btn-danger" onclick="removeFromCart(this, '+product.id+')"></button>').append(
           $('<i class="fas fa-trash-alt"></i>')
         )
       )
-    )
+    ) 
   )
+}
+
+function removeFromCart (node, id) {
+  $(node).parent().parent().parent().remove()
+  for (let i=0; i<_cart.length; i++) {
+    if (_cart[i].id == id) 
+      _cart.splice(i, 1)
+  }
 }
 
 // fill gallery node with product nodes
