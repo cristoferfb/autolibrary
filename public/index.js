@@ -21,6 +21,7 @@ function hideAll () {
 // evaluate login
 function evaluateLogin () {
   userEmail = $('#inputUser').val()
+  clearAll()
 	switch (userEmail) {
     case 'admin':
       fillOrders()
@@ -33,6 +34,7 @@ function evaluateLogin () {
   }
 }
 
+// add cart to orders list
 function processOrder () {
   let order = [{name: userEmail}].concat(_cart)
 
@@ -77,32 +79,29 @@ function getCartNode (product) {
   return $('<li class="list-group-item"></li>').append(
     $('<div class="row"></div>').append(
       $('<div class="col-xs-2"></div>').append(
-        $('<img src="'+product.img+'" class="img-thumbnail"></img>')
-      ),
+        $('<img src="'+product.img+'" class="img-thumbnail"></img>')),
       $('<div class="col-4"></div>').text(product.name),
       $('<div class="col-3"></div>').text('$'+product.value),
       $('<div class="col"></div>').append(
-        $('<input value="1" class="cartNodeCount">')
-      ),
+        $('<input value="1" class="cartNodeCount">')),
       $('<div class="col text-right"></div>').append(
         $('<button class="btn btn-danger" onclick="removeFromCart(this, '+product.id+')"></button>').append(
-          $('<i class="fas fa-trash-alt"></i>')
-        )
-      )
+          $('<i class="fas fa-trash-alt"></i>')))
     ) 
   )
 }
 
+// generate a produc list for order node
 function getProductOrderNode (order) {
   let products = $('<div></div>')
   order.forEach((product, index) => {
     if (index != 0)
       products.append(getCartNode(product))
   })
-
   return products
 }
 
+// generate a order node
 function getOrderNode (order, index) {
   return $('<a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapseExample'+index+'" role="button" aria-expanded="false" aria-controls="collapseExample'+index+'"></a>')
     .append(
@@ -113,19 +112,14 @@ function getOrderNode (order, index) {
     )
 }
 
+// generate order nodes for every order
 function fillOrders () {
   _orders.forEach((order, index)=>{
     $("#orders").append(getOrderNode(order, index))
   })
 }
 
-// <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-//   Pedido de juanito
-//   <div class="collapse" id="collapseExample">
-//     <div id="test"></div>
-//   </div>  
-// </a>
-
+// remove an element from user cart
 function removeFromCart (node, id) {
   $(node).parent().parent().parent().remove()
   for (let i=0; i<_cart.length; i++) {
@@ -161,8 +155,16 @@ function getProduct (id) {
   return _products[id]
 }
 
+// return current user cart
 function getCart () {
   return _cart
+}
+
+// clear all nodes inserted by other functions
+function clearAll () {
+  $('#cart').empty()
+  $('#products').empty()
+  $("#orders").empty()
 }
 
 let _products = [{
