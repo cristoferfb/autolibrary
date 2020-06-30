@@ -30,12 +30,22 @@ function addProductToCart (id) {
 
 // add cart to orders list
 function processOrder () {
-	let order = [{name: userEmail}].concat(_cart)
-	$('.cartNodeCount').map((index, node) => {
-		order[index+1].count = parseInt($(node).val())})
-	_cart = []
-	$("#cart").empty()
-	_orders.push(order)
+	let reader = new FileReader()
+	reader.onload = e => {
+		let order = [{
+			name: userEmail,
+			attachment: e.target.result,
+			comment: $('#comment').val()
+		}].concat(_cart)
+		$('.cartNodeCount').map((index, node) => {
+			order[index+1].count = parseInt($(node).val())})
+		_cart = []
+		$("#cart").empty()
+		$('#attachment').val('')
+		$('#comment').val('')
+		_orders.push(order)
+	}
+	reader.readAsDataURL($('#attachment')[0].files[0])
 }
 
 // get a cart node for insert in DOM
@@ -47,7 +57,7 @@ function getCartNode (product) {
 			$('<div class="col-4"></div>').text(product.name),
 			$('<div class="col-3"></div>').text('$'+product.value),
 			$('<div class="col"></div>').append(
-				$('<input value="'+product.count+'" class="cartNodeCount">')),
+				$('<input type="number" value="'+product.count+'" class="cartNodeCount">')),
 			$('<div class="col text-right"></div>').append(
 				$('<button class="btn btn-danger" onclick="removeProduct(this,\''+product.name+'\')"></button>').append(
 					$('<i class="fas fa-trash-alt"></i>')))))

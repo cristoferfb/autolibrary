@@ -83,4 +83,14 @@ let _inventory = [{
   'img': 'https://officemax.vteximg.com.br/arquivos/ids/170272-1000-1000/92616_1.jpg?v=636246906670000000',
   'value': 1500,
   'stock': 10,
+},{
+  'name': 'Impresion a color',
+  'img': 'https://imprentalascondes.cl/wp-content/uploads/2016/09/IMPRESION-DIGITAL-A-COLOR-1.jpg',
+  'value': 50,
+  'stock': 10,
+},{
+  'name': 'Impresion en blanco y negro',
+  'img': 'https://imprentalascondes.cl/wp-content/uploads/2020/02/COPIAS-EN-BLANCO-Y-NEGRO.jpg',
+  'value': 10,
+  'stock': 10,
 }]
