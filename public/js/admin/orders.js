@@ -60,6 +60,7 @@ function checkOrder(node, index){
 				}else{
 					_inventory[j].stock = 0
 				}
+				reloadInventory()
 				return
 			}
 		}
