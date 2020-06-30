@@ -43,21 +43,31 @@ function getTotal(){
 // add cart to orders list
 function processOrder () {
 	let reader = new FileReader()
-	reader.onload = e => {
-		let order = [{
-			name: userEmail,
-			attachment: e.target.result,
-			comment: $('#comment').val()
-		}].concat(_cart)
-		$('.cartNodeCount').map((index, node) => {
-			order[index+1].count = parseInt($(node).val())})
-		_cart = []
-		$("#cart").empty()
-		$('#attachment').val('')
-		$('#comment').val('')
-		_orders.push(order)
-	}
-	reader.readAsDataURL($('#attachment')[0].files[0])
+	reader.onload = e => generateOrder(e.target.result)
+
+	if ($('#attachment')[0].files[0])
+		reader.readAsDataURL($('#attachment')[0].files[0])
+	else
+		generateOrder (null)
+}
+
+function generateOrder (attachmentUrl) {
+	// generate the order
+	let order = [{
+		name: userEmail,
+		attachment: attachmentUrl,
+		comment: $('#comment').val()
+	}].concat(_cart)
+	// add count for every product in the cart
+	$('.cartNodeCount').map((index, node) => {
+		order[index+1].count = parseInt($(node).val())})
+	// clear cart
+	_cart = []
+	$("#cart").empty()
+	$('#attachment').val('')
+	$('#comment').val('')
+	// add the order
+	_orders.push(order)
 }
 
 // get a cart node for insert in DOM

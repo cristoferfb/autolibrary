@@ -25,10 +25,10 @@ function getOrderNode (order, index) {
 					$('<input type="text" class="form-control" value="'+order[0].comment+'" disabled/>') : '',
 				order[0].attachment ?
 					$('<a onclick="downloadAttachment(\''+index+'\')">Download Attachment</a>') : '',
-				$('<button class="btn btn-danger btn-block mt-2" onclick="removeOrder(this,'+index+')"></button>').append(
+				$('<button class="btn btn-danger btn-block mt-2" onclick="removeOrder('+index+')"></button>').append(
 					$('<i class="fas fa-trash-alt"></i>')
 				),
-				$('<button class="btn btn-success btn-block" onclick="checkOrder(this,'+index+')"></button>').append(
+				$('<button class="btn btn-success btn-block" onclick="checkOrder('+index+')"></button>').append(
 					$('<i class="fas fa-check"></i>')
 				)
 			)
@@ -69,25 +69,20 @@ function getOrderProduct (product) {
 }
 
 //set the index order as finished and procede to discount the items of the library stock
-function checkOrder(node, index){
-	$(node).parent().parent().parent().remove()
-	let currentOrder = _orders[index]
-
-	for(let i=1 ; i< _orders[index].length;i++){
-		for(let j=0; j<_inventory.length;j++){
-			if(currentOrder[i].name == _inventory[j].name){
-				currentStock = _inventory[j].stock - currentOrder[i].count
-				(currentStock > 0) ? _inventory[j].stock = currentStock :
-					_inventory[j].stock = 0
-			}
-		}
-	}
+function checkOrder(index){
+	_orders[index].forEach(orderProduct => 
+		_inventory.forEach((product, index) => {
+			if (orderProduct.name == product.name) {
+				let stock = product.stock - orderProduct.count
+				_inventory[index].stock = stock < 0 ? 0 : stock
+			}}))
 	reloadInventory()
+	removeOrder(index)
 }
 
 //delete the order without discounting the items of the stock
-function removeOrder(node, index){
-	$(node).parent().parent().parent().remove()
-
+function removeOrder(index){
 	_orders.splice(index, 1)
+	$('#orders').empty()
+	fillOrders()
 }
