@@ -1,9 +1,17 @@
 let _orders = []
 
 // insert a order node for every order
-function fillOrders () {
-	_orders.forEach((order, index) => 
+let fillOrders = () => _orders.forEach((order, index) => 
 		$("#orders").append(getOrderNode(order, index)))
+
+
+function downloadAttachment (index) {
+	let link = document.createElement("a");
+  link.download = "print";
+  link.href = _orders[index][0].attachment;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
 // generate a order node
@@ -13,17 +21,15 @@ function getOrderNode (order, index) {
 			"#"+(index+1)+" "+order[0].name,
 			$('<div class="collapse" id="collapseOrder'+index+'"></div>').append(
 				getOrderList(order),
-				$('<div class="row"></div>').append(
-
-					$('<button class="btn btn-danger" onclick="removeOrder(this,'+index+')"></button>').append(
-						$('<i class="fas fa-trash-alt"></i>')
-					),
-					$('<button class="btn btn-success" onclick="checkOrder(this,'+index+')"></button>').append(
-						$('<i class="fas fa-check"></i>')
-					)
-				)
-			)
-		)
+				order[0].comment ?
+					$('<input type="text" class="form-control" value="'+order[0].comment+'" disabled/>') : '',
+				order[0].attachment ?
+					$('<a onclick="downloadAttachment(\''+index+'\')">Download Attachment</a>') : '',
+				$('<button class="btn btn-danger btn-block mt-2" onclick="removeOrder('+index+')"></button>').append(
+					$('<i class="fas fa-trash-alt"></i>')
+				),
+				$('<button class="btn btn-success btn-block" onclick="checkOrder('+index+')"></button>').append(
+					$('<i class="fas fa-check"></i>'))))
 }
 
 // generate a list of products
@@ -31,7 +37,6 @@ function getOrderList (order) {
 	let products = $('<ul class="list-group list-group-flush"></ul>')
 	order.forEach((product, index) => 
 		index != 0 && products.append(getOrderProduct(product)))
-	
 	products.append(getTotalNode(order))
 	return products
 }
@@ -47,6 +52,14 @@ function getOrderTotal(order){
 	return totalValue
 }
 
+// get node for display total
+function getTotalNode (order) {
+	let totalValue = 0;
+	order.forEach(product => (totalValue += product.count ? product.count * product.value : 0))
+	return $('<li class="list-group-item"></li>').append(
+		$('<div class="row"></div>').text('Total: $'+ totalValue))
+}
+
 // get a product node for insert in a list
 function getOrderProduct (product) {
 	return $('<li class="list-group-item"></li>').append(
@@ -60,29 +73,20 @@ function getOrderProduct (product) {
 }
 
 //set the index order as finished and procede to discount the items of the library stock
-function checkOrder(node, index){
-	$(node).parent().parent().parent().remove()
-	let currentOrder = _orders[index]
-
-	for(let i=1 ; i< _orders[index].length;i++){
-		for(let j=0; j<_inventory.length;j++){
-			if(currentOrder[i].name == _inventory[j].name){
-				currentStock = _inventory[j].stock - currentOrder[i].count
-				if(currentStock > 0){
-					_inventory[j].stock = currentStock
-				}else{
-					_inventory[j].stock = 0
-				}
-			}
-		}
-	}
+function checkOrder(index){
+	_orders[index].forEach(orderProduct => 
+		_inventory.forEach((product, index) => {
+			if (orderProduct.name == product.name) {
+				let stock = product.stock - orderProduct.count
+				_inventory[index].stock = stock < 0 ? 0 : stock
+			}}))
 	reloadInventory()
-	return
+	removeOrder(index)
 }
 
 //delete the order without discounting the items of the stock
-function removeOrder(node, index){
-	$(node).parent().parent().parent().remove()
-
+function removeOrder(index){
 	_orders.splice(index, 1)
+	$('#orders').empty()
+	fillOrders()
 }

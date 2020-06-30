@@ -41,11 +41,42 @@ function getEditForm (product, index) {
 
 // update product info from edition form
 function setProduct (id) {
-	$('#productName'+id).val() && (_inventory[id].name = $('#productName'+id).val())
-	$('#productValue'+id).val() && (_inventory[id].value = parseInt($('#productValue'+id).val()))
-	$('#productImg'+id).val() && (_inventory[id].img = $('#productImg'+id).val())
-	$('#productStock'+id).val() && (_inventory[id].stock = parseInt($('#productStock'+id).val()))
+	if (!id) {
+		id = _inventory.length
+		_inventory.push({})
+		$('#productName').val() && (_inventory[id].name = $('#productName').val())
+		$('#productValue').val() && (_inventory[id].value = parseInt($('#productValue').val()))
+		$('#productImg').val() && (_inventory[id].img = $('#productImg').val())
+		$('#productStock').val() && (_inventory[id].stock = parseInt($('#productStock').val()))
+	} else {
+		$('#productName'+id).val() && (_inventory[id].name = $('#productName'+id).val())
+		$('#productValue'+id).val() && (_inventory[id].value = parseInt($('#productValue'+id).val()))
+		$('#productImg'+id).val() && (_inventory[id].img = $('#productImg'+id).val())
+		$('#productStock'+id).val() && (_inventory[id].stock = parseInt($('#productStock'+id).val()))
+	}
+	$('#productName').val('')
+	$('#productValue').val('')
+	$('#productImg').val('')
+	$('#productStock').val('')
 	reloadInventory()
+}
+
+function importFromCsv() {
+	$("#attachment").click()
+    $("#attachment").one('change', () =>
+		$("#attachment").parse({
+			config: {
+				complete: result => {
+					_inventory = _inventory.concat(result.data)
+					reloadInventory()
+					$("#attachment").one('change', null)
+				},
+				dynamicTyping: true,
+				header: true
+			},
+			complete: () => $("#attachment").val('')
+		}))
+
 }
 
 // remove a product form the inventory
@@ -82,5 +113,15 @@ let _inventory = [{
   'name': 'Colafria',
   'img': 'https://officemax.vteximg.com.br/arquivos/ids/170272-1000-1000/92616_1.jpg?v=636246906670000000',
   'value': 1500,
+  'stock': 10,
+},{
+  'name': 'Impresion a color',
+  'img': 'https://imprentalascondes.cl/wp-content/uploads/2016/09/IMPRESION-DIGITAL-A-COLOR-1.jpg',
+  'value': 50,
+  'stock': 10,
+},{
+  'name': 'Impresion en blanco y negro',
+  'img': 'https://imprentalascondes.cl/wp-content/uploads/2020/02/COPIAS-EN-BLANCO-Y-NEGRO.jpg',
+  'value': 10,
   'stock': 10,
 }]

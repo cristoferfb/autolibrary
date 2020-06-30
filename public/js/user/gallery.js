@@ -14,6 +14,6 @@ function getProductNode (product, id) {
 			$('<h5 class="card-title"></h5>').text(product.name),
 			$('<h5 class="card-title"></h5>').text("$"+product.value),
 			$('<btn class="btn btn-primary" onclick="addProductToCart('+id+')"/>')
-				.text("Comprar")))
+				.text("Buy")))
 }
 

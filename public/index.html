@@ -60,8 +60,41 @@
 				<div class="col-md">
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title">Inventory</h5>
+							<div class="row">
+								<h5 class="card-title col">Inventory</h5>
+								<div class="btn-group mr-4" role="group" aria-label="Basic example">
+									<button class="btn" onclick="importFromCsv()">
+										<i class="fas fa-file-import"></i>
+									</button>
+									<button class="btn" data-toggle="collapse" data-target="#collapseInventory" aria-expanded="false" aria-controls="collapseInventory">
+										<i class="fas fa-plus-circle"></i>
+									</button>
+								</div>
+							</div>
 							<div class="card-text">
+								<div class="collapse" id="collapseInventory">
+									<div class="mt-2 inventoryForm">
+										<div class="form-group">
+											<label>Product name</label>
+											<input id="productName" type="text" class="form-control">
+										</div>
+										<div class="form-group">
+											<label>Value</label>
+											<input id="productValue" type="number" class="form-control">
+										</div>
+										<div class="form-group">
+											<label>Image url</label>
+											<input id="productImg" type="text" class="form-control">
+										</div>
+										<div class="form-group">
+											<label>Stock</label>
+											<input id="productStock" type="number" class="form-control">
+										</div>
+										<button class="btn btn-primary btn-block" onclick="setProduct()">
+											<i class="fas fa-save" aria-hidden="true"></i>
+										</button>
+									</div>
+								</div>
 								<ul class="list-group list-group-flush" id="inventory"></ul>
 							</div>
 						</div>
@@ -84,19 +117,29 @@
 			<div class="collapse mb-3" id="cartContainer">
 			  <div class="card card-body">
 			  	<ul class="list-group list-group-flush" id="cart">
-				</ul>
-				<ul>
-					<h5 id="total"></h5>	
-				</ul>					
+			  	</ul>
+			  	<form class="mt-2">
+					<div class="form-group">
+						<label for="attachment">Attachment</label>
+						<input type="file" class="form-control-file" id="attachment">
+					</div>
+				  	<div class="form-group">
+				  		<label for="comment">Comment</label>
+						<input type="text" id="comment" class="form-control">
+					</div>
+				</form>
+				<h5 id="total" class="ml-auto">Total: $0</h5>					
 			  	<button class="btn btn-primary float-right" onclick="processOrder()">Hacer pedido</button>
 			  </div>
 			</div>
 			<div id="products" class="row"></div>
 		</div>
+
 		<!-- Optional JavaScript -->
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/papaparse@5.2.0/papaparse.min.js"></script>
 
 		<script type="text/javascript" src="js/user/cart.js"></script>
 		<script type="text/javascript" src="js/user/gallery.js"></script>

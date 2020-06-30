@@ -3,6 +3,7 @@ let userEmail = ""
 
 // clear all nodes inserted by other functions
 function clearAll () {
+	_cart = []
 	$('#cart').empty()
 	$('#products').empty()
 	$("#orders").empty()

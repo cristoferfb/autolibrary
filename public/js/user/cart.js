@@ -42,12 +42,32 @@ function getTotal(){
 
 // add cart to orders list
 function processOrder () {
-	let order = [{name: userEmail}].concat(_cart)
-	$('#total').text('Total: $'+ 0)
+	let reader = new FileReader()
+	reader.onload = e => generateOrder(e.target.result)
+
+	if ($('#attachment')[0].files[0])
+		reader.readAsDataURL($('#attachment')[0].files[0])
+	else
+		generateOrder (null)
+}
+
+function generateOrder (attachmentUrl) {
+	// generate the order
+	let order = [{
+		name: userEmail,
+		attachment: attachmentUrl,
+		comment: $('#comment').val()
+	}].concat(_cart)
+	// add count for every product in the cart
 	$('.cartNodeCount').map((index, node) => {
 		order[index+1].count = parseInt($(node).val())})
+	// clear cart
 	_cart = []
-	$("#cart").empty()
+	$('#cart').empty()
+	$('#attachment').val('')
+	$('#comment').val('')
+	$('#total').text('Total: $0')
+	// add the order
 	_orders.push(order)
 }
 
@@ -60,7 +80,7 @@ function getCartNode (product) {
 			$('<div class="col-4"></div>').text(product.name),
 			$('<div class="col-3"></div>').text('$'+product.value),
 			$('<div class="col"></div>').append(
-				$('<input value="'+product.count+'" class="cartNodeCount">')),
+				$('<input type="number" value="'+product.count+'" class="cartNodeCount">')),
 			$('<div class="col text-right"></div>').append(
 				$('<button class="btn btn-danger" onclick="removeProduct(this,\''+product.name+'\')"></button>').append(
 					$('<i class="fas fa-trash-alt"></i>')))))
