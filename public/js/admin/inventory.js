@@ -51,8 +51,9 @@ function setProduct (id) {
 
 // remove a product form the inventory
 function removeFromInventory (node, id) {
-	$(node).parent().parent().parent().remove()
 	_inventory.splice(id, 1)
+	$("#inventory").empty()
+	fillInventory()
 }
 
 // get all products
