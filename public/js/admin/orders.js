@@ -32,5 +32,5 @@ function getOrderProduct (product) {
 			$('<div class="col-4 d-md-none d-lg-block"></div>').text(product.name),
 			$('<div class="col"></div>').text('$'+product.value),
 			$('<div class="col text-center"></div>').append(
-				$('<input value="1" class="cartNodeCount" disabled>'))))
+				$('<input value="'+product.count+'" class="cartNodeCount" disabled>'))))
 }
