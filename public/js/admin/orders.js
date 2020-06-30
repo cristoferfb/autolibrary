@@ -73,7 +73,6 @@ function checkOrder(node, index){
 				}else{
 					_inventory[j].stock = 0
 				}
-				
 			}
 		}
 	}
@@ -84,5 +83,6 @@ function checkOrder(node, index){
 //delete the order without discounting the items of the stock
 function removeOrder(node, index){
 	$(node).parent().parent().parent().remove()
+
 	_orders.splice(index, 1)
 }
