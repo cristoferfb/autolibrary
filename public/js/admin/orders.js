@@ -31,7 +31,20 @@ function getOrderList (order) {
 	let products = $('<ul class="list-group list-group-flush"></ul>')
 	order.forEach((product, index) => 
 		index != 0 && products.append(getOrderProduct(product)))
+	
+	products.append(getTotalNode(order))
 	return products
+}
+function getTotalNode(order){
+	return $('<li class="list-group-item"></li>').append(
+		$('<div class="row"></div>').text('Total: $'+ getOrderTotal(order)))
+}
+function getOrderTotal(order){
+	totalValue=0;
+	for(let i=1; i<order.length; i++){
+		totalValue = totalValue + (order[i].count * order[i].value)
+	}
+	return totalValue
 }
 
 // get a product node for insert in a list
@@ -48,10 +61,10 @@ function getOrderProduct (product) {
 
 //set the index order as finished and procede to discount the items of the library stock
 function checkOrder(node, index){
-	$(node).parent().parent().parent().parent().remove()
+	$(node).parent().parent().parent().remove()
 	let currentOrder = _orders[index]
 
-	for(let i=1 ; i< currentOrder.length;i++){
+	for(let i=1 ; i< _orders[index].length;i++){
 		for(let j=0; j<_inventory.length;j++){
 			if(currentOrder[i].name == _inventory[j].name){
 				currentStock = _inventory[j].stock - currentOrder[i].count
@@ -70,6 +83,6 @@ function checkOrder(node, index){
 
 //delete the order without discounting the items of the stock
 function removeOrder(node, index){
-	$(node).parent().parent().parent().parent().remove()
+	$(node).parent().parent().parent().remove()
 	_orders.splice(index, 1)
 }

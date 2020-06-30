@@ -20,17 +20,30 @@ function addProductToCart (id) {
 	for(var i=0; i <_cart.length; i++)
 		if(currentProduct.name == _cart[i].name){
 			$('.cartNodeCount')[i].value = ++_cart[i].count
+			$('#total').text('Total: $'+ getTotal())
 			return
 		}
 	currentProduct.count = 1
 	_cart.push(currentProduct)
 	addCartNode(currentProduct)
+	$('#total').text('Total: $'+ getTotal())
 	return
 }
+//fill with the total of the current elements in it
+function getTotal(){
+	let totalValue = 0
+	for(let i=0 ; i<_cart.length;i++){
+		let currentProduct = _cart[i]
+		totalValue = totalValue + (currentProduct.count * currentProduct.value)
+	}
+	return totalValue
+}
+
 
 // add cart to orders list
 function processOrder () {
 	let order = [{name: userEmail}].concat(_cart)
+	$('#total').text('Total: $'+ 0)
 	$('.cartNodeCount').map((index, node) => {
 		order[index+1].count = parseInt($(node).val())})
 	_cart = []
