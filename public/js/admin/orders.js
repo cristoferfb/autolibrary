@@ -12,7 +12,18 @@ function getOrderNode (order, index) {
 		.append(
 			"#"+(index+1)+" "+order[0].name,
 			$('<div class="collapse" id="collapseOrder'+index+'"></div>').append(
-					getOrderList(order)))
+				getOrderList(order),
+				$('<div class="row"></div>').append(
+
+					$('<button class="btn btn-danger" onclick="removeOrder(this,'+index+')"></button>').append(
+						$('<i class="fas fa-trash-alt"></i>')
+					),
+					$('<button class="btn btn-success" onclick="checkOrder(this,'+index+')"></button>').append(
+						$('<i class="fas fa-check"></i>')
+					)
+				)
+			)
+		)
 }
 
 // generate a list of products
@@ -33,4 +44,32 @@ function getOrderProduct (product) {
 			$('<div class="col"></div>').text('$'+product.value),
 			$('<div class="col text-center"></div>').append(
 				$('<input value="'+product.count+'" class="cartNodeCount" disabled>'))))
+}
+
+//set the index order as finished and procede to discount the items of the library stock
+function checkOrder(node, index){
+	$(node).parent().parent().parent().parent().remove()
+	let currentOrder = _orders[index]
+
+	for(let i=1 ; i< currentOrder.length;i++){
+		for(let j=0; j<_inventory.length;j++){
+			if(currentOrder[i].name == _inventory[j].name){
+				currentStock = _inventory[j].stock - currentOrder[i].count
+				if(currentStock > 0){
+					_inventory[j].stock = currentStock
+				}else{
+					_inventory[j].stock = 0
+				}
+				
+			}
+		}
+	}
+	reloadInventory()
+	return
+}
+
+//delete the order without discounting the items of the stock
+function removeOrder(node, index){
+	$(node).parent().parent().parent().parent().remove()
+	_orders.splice(index, 1)
 }
