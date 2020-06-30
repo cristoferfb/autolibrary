@@ -15,17 +15,13 @@ function removeProduct (node,name) {
 
 // add product to cart array
 function addProductToCart (id) {
+	let currentProduct = getProduct(id)
 	// check if product exist
-	let flag = false
-	let currentProduct = getProduct(id) 
-	for(var i=0; i <_cart.length; i++){
-		let compareProduct = _cart[i]
-		if(currentProduct.name == compareProduct.name){
-			compareProduct.count ++
-			_cart[i] = compareProduct
+	for(var i=0; i <_cart.length; i++)
+		if(currentProduct.name == _cart[i].name){
+			$('.cartNodeCount')[i].value = ++_cart[i].count
 			return
 		}
-	}
 	currentProduct.count = 1
 	_cart.push(currentProduct)
 	addCartNode(currentProduct)
