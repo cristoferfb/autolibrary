@@ -45,15 +45,16 @@ function setProduct (id) {
 	$('#productValue'+id).val() && (_inventory[id].value = parseInt($('#productValue'+id).val()))
 	$('#productImg'+id).val() && (_inventory[id].img = $('#productImg'+id).val())
 	$('#productStock'+id).val() && (_inventory[id].stock = parseInt($('#productStock'+id).val()))
-	$("#inventory").empty()
-	fillInventory()
+	reloadInventory()
 }
 
 // remove a product form the inventory
 function removeFromInventory (node, id) {
-	$(node).parent().parent().parent().remove()
 	_inventory.splice(id, 1)
+	reloadInventory()
 }
+
+let reloadInventory = () => $("#inventory").empty() && fillInventory()
 
 // get all products
 let getProducts = () => {return _inventory}
