@@ -60,11 +60,12 @@ function checkOrder(node, index){
 				}else{
 					_inventory[j].stock = 0
 				}
-				reloadInventory()
-				return
+				
 			}
 		}
 	}
+	reloadInventory()
+	return
 }
 
 //delete the order without discounting the items of the stock
