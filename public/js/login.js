@@ -41,5 +41,7 @@ function evaluateLogin () {
 			fillProductGallery()
 			goTo('user')
 			break
+		default:
+			$('#exampleModal').modal('show')
 	}
 }
