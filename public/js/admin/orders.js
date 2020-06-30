@@ -29,10 +29,7 @@ function getOrderNode (order, index) {
 					$('<i class="fas fa-trash-alt"></i>')
 				),
 				$('<button class="btn btn-success btn-block" onclick="checkOrder('+index+')"></button>').append(
-					$('<i class="fas fa-check"></i>')
-				)
-			)
-		)
+					$('<i class="fas fa-check"></i>'))))
 }
 
 // generate a list of products
@@ -40,20 +37,16 @@ function getOrderList (order) {
 	let products = $('<ul class="list-group list-group-flush"></ul>')
 	order.forEach((product, index) => 
 		index != 0 && products.append(getOrderProduct(product)))
-	
 	products.append(getTotalNode(order))
 	return products
 }
-function getTotalNode(order){
+
+// get node for display total
+function getTotalNode (order) {
+	let totalValue = 0;
+	order.forEach(product => (totalValue += product.count ? product.count * product.value : 0))
 	return $('<li class="list-group-item"></li>').append(
-		$('<div class="row"></div>').text('Total: $'+ getOrderTotal(order)))
-}
-function getOrderTotal(order){
-	totalValue=0;
-	for(let i=1; i<order.length; i++){
-		totalValue = totalValue + (order[i].count * order[i].value)
-	}
-	return totalValue
+		$('<div class="row"></div>').text('Total: $'+ totalValue))
 }
 
 // get a product node for insert in a list

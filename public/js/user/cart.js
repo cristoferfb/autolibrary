@@ -63,9 +63,10 @@ function generateOrder (attachmentUrl) {
 		order[index+1].count = parseInt($(node).val())})
 	// clear cart
 	_cart = []
-	$("#cart").empty()
+	$('#cart').empty()
 	$('#attachment').val('')
 	$('#comment').val('')
+	$('#total').text('Total: $0')
 	// add the order
 	_orders.push(order)
 }
