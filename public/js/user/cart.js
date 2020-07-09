@@ -85,6 +85,7 @@ function getCartNode (product) {
 					$('<i class="fas fa-trash-alt"></i>')))))
 }
 
+// Update count of every product by his input in the cart
 function updateCount () {
 	$('.cartNodeCount').map((index, node) => {
 		let inputCount = parseInt($(node).val())

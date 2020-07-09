@@ -51,5 +51,4 @@ function evaluateLogin () {
 				$('#userModal').modal('show')
 		}
 	}
-	
 }
