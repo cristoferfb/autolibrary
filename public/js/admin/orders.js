@@ -40,6 +40,17 @@ function getOrderList (order) {
 	products.append(getTotalNode(order))
 	return products
 }
+function getTotalNode(order){
+	return $('<li class="list-group-item"></li>').append(
+		$('<div class="row"></div>').text('Total: $'+ getOrderTotal(order)))
+}
+function getOrderTotal(order){
+	totalValue=0;
+	for(let i=1; i<order.length; i++){
+		totalValue = totalValue + (order[i].count * order[i].value)
+	}
+	return totalValue
+}
 
 // get node for display total
 function getTotalNode (order) {
