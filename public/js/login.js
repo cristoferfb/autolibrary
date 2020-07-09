@@ -31,14 +31,13 @@ function hideAllViews () {
 // evaluate login for redirect
 function evaluateLogin () {
 	userEmail = $('#inputUser').val()
-	password=$('#inputPassword').val()
+	let password  = $('#inputPassword').val()
 	clearAll()
-	if(password){
+	if (password)
 		$('#passwordModal').modal('show')
-	}else{
+	else
 		switch (userEmail) {
 			case 'admin':
-	
 				fillOrders()
 				fillInventory()
 				goTo('admin')
@@ -50,5 +49,4 @@ function evaluateLogin () {
 			default:
 				$('#userModal').modal('show')
 		}
-	}
 }
