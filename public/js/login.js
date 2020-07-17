@@ -1,3 +1,9 @@
+// accounts array
+let _accounts = [
+	{ user: "admin", pass: "", level: 1 },
+	{ user: "user", pass: "", level: 2 },
+] 
+
 // current logged user email
 let userEmail = ""
 
@@ -31,22 +37,34 @@ function hideAllViews () {
 // evaluate login for redirect
 function evaluateLogin () {
 	userEmail = $('#inputUser').val()
-	let password  = $('#inputPassword').val()
+	let level = checkPassword(userEmail, $('#inputPassword').val())
+
+	if (level < 1) {
+		$('#accountModal').modal('show')
+		return
+	}
+
 	clearAll()
-	if (password)
-		$('#passwordModal').modal('show')
-	else
-		switch (userEmail) {
-			case 'admin':
-				fillOrders()
-				fillInventory()
-				goTo('admin')
-				break
-			case 'user':
-				fillProductGallery()
-				goTo('user')
-				break
-			default:
-				$('#userModal').modal('show')
-		}
+	switch (level) {
+		case 1:
+			fillOrders()
+			fillInventory()
+			goTo('admin')
+			break
+		case 2:
+			fillProductGallery()
+			goTo('user')
+			break
+	}
 }
+
+// check password and return access level of the account
+function checkPassword (user, pass) {
+	for (i=0; i<_accounts.length; i++)
+		if (_accounts[i].user === user)
+			if (_accounts[i].pass == pass)
+				return _accounts[i].level
+			else
+				break
+	return 0
+}	
