@@ -63,25 +63,42 @@
 							<div class="card-text">
 								<div class="collapse" id="collapseInventory">
 									<div class="mt-2 inventoryForm">
-										<div class="form-group">
-											<label>Product name</label>
-											<input id="productName" type="text" class="form-control">
-										</div>
-										<div class="form-group">
-											<label>Value</label>
-											<input id="productValue" type="number" class="form-control">
-										</div>
-										<div class="form-group">
-											<label>Image url</label>
-											<input id="productImg" type="text" class="form-control">
-										</div>
-										<div class="form-group">
-											<label>Stock</label>
-											<input id="productStock" type="number" class="form-control">
-										</div>
-										<button class="btn btn-primary btn-block" onclick="setProduct()">
-											<i class="fas fa-save" aria-hidden="true"></i>
-										</button>
+										<form class="needs-validation" novalidate>
+											<div class="form-group">
+												<label for="productName">Nombre del producto</label>
+												<input id="productName" type="text" class="form-control" required>
+												<div class="invalid-feedback">
+													Debe ingresar un nombre para el producto
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="productValue">Valor</label>
+												<input id="productValue" type="number" min="1" class="form-control" aria-describedby="valueHelp" required>
+												<div class="invalid-feedback">
+													El campo Valor no puede ser 0 o negativo.
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="productImg">Imagen</label>
+												<input type="file" accept=".JPG,.JPEG,.PNG" class="form-control-file" id="productImg" aria-describedby="imgAtachmentHelp" required>
+												<div class="invalid-feedback">
+													Debe ingresar una imagen para el producto.
+												</div>
+												<small id="imgAtachmentHelp" class="form-text text-muted">
+													Formatos permitidos: .JPEG , .JPG , .PNG
+												</small>
+											</div>
+											<div class="form-group">
+												<label>Existencias en stock</label>
+												<input id="productStock" type="number" min="1" class="form-control" required>
+												<div class="invalid-feedback">
+													El campo Stock no puede ser 0 o negativo.
+												</div>
+											</div>
+											<button type="submit" class="btn btn-primary btn-block" onclick="setProduct()">
+												<i class="fas fa-save" aria-hidden="true"></i>
+											</button>
+										</form>
 									</div>
 								</div>
 								<ul class="list-group list-group-flush" id="inventory"></ul>
@@ -107,28 +124,46 @@
 			  <div class="card card-body">
 				<ul class="list-group list-group-flush" id="cart">
 				</ul>
-				<form class="mt-2">
+				<form class="needs-validation" novalidate>
+					<label for="attachment">Archivo: (Opcional)</label>
+					<br>
 					<div class="form-group">
-						<label for="attachment">Attachment</label>
-						<input type="file" class="form-control-file" id="attachment">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="colorOptions" id="color1" value="1">
+							<label class="form-check-label" for="color1">Color: $50</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="colorOptions" id="color2" value="0">
+							<label class="form-check-label" for="color2">B/N: $10</label>
+						</div>
+							<br>
+							<br>  
+						<input type="file" class="form-control-file" id="attachment" aria-describedby="attachmentHelp">
+						<small id="attachmentHelp" class="form-text text-muted">
+							El precio que se muestra es por hoja y no sera agregado al total del pedido, se muestra solo para informar.
+						</small>
 					</div>
 					<div class="form-group">
-						<label for="comment">Comment</label>
-						<input type="text" id="comment" class="form-control">
+						<label for="comment">Comentarios</label>
+						<input  type="text" id="comment" class="form-control" placeholder="Horario, modalidad o peticiones de varias indoles.">
 					</div>
+					
 				</form>
-				<h5 id="total" class="ml-auto">Total: $0</h5>					
-				<button class="btn btn-primary float-right" onclick="processOrder()">Hacer pedido</button>
+					<h5 id="total" class="ml-auto">Total: $0</h5>					
+					<button class="btn btn-primary float-right" onclick="processOrder()">Hacer pedido</button>
+				
 			  </div>
 			</div>
 			<div id="products" class="row"></div>
 		</div>
 		<!-- Modals -->
+
+		<!--Invalid account modal-->
 		<div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-body">
-						The credentials are not correct
+						Las credenciales no son correctas.
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -136,11 +171,13 @@
 				</div>
 			</div>
 		</div>
+
+		<!--Register complete modal-->
 		<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-body">
-						Register completed
+						Registro completado.
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -148,11 +185,13 @@
 				</div>
 			</div>
 		</div>
+
+		<!--Existing user modal-->
 		<div class="modal fade" id="userExistModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-body">
-						Invalid user try another
+						Usuario invalido intenta de nuevo.
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -160,6 +199,95 @@
 				</div>
 			</div>
 		</div>
+
+		<!--Empty cart modal-->
+		<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						No se han agregado objetos al carrito.
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Processed order modal-->
+		<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						Se ha realizado el pedido exitosamente.
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Complete order modal-->
+		<div class="modal fade" id="completeOrderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						Se ha registrado la orden completada.
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Delete uncomplete orders modal-->
+		<div class="modal fade" id="uncompleteOrderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						Se ha eliminado una orden sin completar.
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--Not selected color modal-->
+		<div class="modal fade" id="colorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						No se ha elegido el color de la impresion.
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--New product Form validation script -->
+		<script>
+			(function() {
+			  'use strict';
+			  window.addEventListener('load', function() {
+				var forms = document.getElementsByClassName('needs-validation');
+				var validation = Array.prototype.filter.call(forms, function(form) {
+				  form.addEventListener('submit', function(event) {
+					if (form.checkValidity() === false) {
+					  event.preventDefault();
+					  event.stopPropagation();
+					}
+					form.classList.add('was-validated');
+				  }, false);
+				});
+			  }, false);
+			})();
+			</script>
+
 		<!-- The core Firebase JS SDK is always required and must be listed first -->
 		<script src="/__/firebase/7.16.1/firebase-app.js"></script>
 
@@ -168,7 +296,7 @@
 
 		<!-- Initialize Firebase -->
 		<script src="/__/firebase/init.js"></script>
-		
+	
 		<!-- Optional JavaScript -->
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

@@ -9,8 +9,11 @@ let addCartNode = product => $('#cart').append(getCartNode(product))
 // remove an element from user cart
 function removeProduct (node,name) {
 	$(node).parent().parent().parent().remove()
-	for (let i=0; i<_cart.length; i++)
+	for (let i=0; i<_cart.length; i++){
 		_cart[i].name.trim().toUpperCase() == name.trim().toUpperCase() && _cart.splice(i, 1)
+	}
+	
+	$('#total').text('Total: $'+ getTotal())
 }
 
 // add product to cart array
@@ -41,13 +44,30 @@ function getTotal(){
 
 // add cart to orders list
 function processOrder () {
-	let reader = new FileReader()
-	reader.onload = e => generateOrder(e.target.result)
+	if( _cart.length < 1 && document.getElementById('attachment').files.length == 0 ){
+		$('#cartModal').modal('show')
+		return
 
-	if ($('#attachment')[0].files[0])
-		reader.readAsDataURL($('#attachment')[0].files[0])
-	else
-		generateOrder (null)
+	}else{
+		let reader = new FileReader()
+		reader.onload = e => generateOrder(e.target.result)
+
+		if(document.getElementById("color1").checked || document.getElementById("color2").checked || _cart.length > 0){
+			if ($('#attachment')[0].files[0]){
+
+				$('#orderModal').modal('show')
+				reader.readAsDataURL($('#attachment')[0].files[0])
+			}else{
+
+				$('#orderModal').modal('show')
+				generateOrder (null)
+		
+			}
+		}else{
+			$('#colorModal').modal('show')
+			return
+		}
+	}
 }
 
 // generate the order
@@ -79,7 +99,7 @@ function getCartNode (product) {
 			$('<div class="col-4"></div>').text(product.name),
 			$('<div class="col-3"></div>').text('$'+product.value),
 			$('<div class="col"></div>').append(
-				$('<input onchange="updateCount()" type="number" value="'+product.count+'" class="cartNodeCount">')),
+				$(`<input onchange="updateCount()" type="number" min="1" value="${product.count}" class="cartNodeCount"  style="width: 50px;">`)),
 			$('<div class="col text-right"></div>').append(
 				$('<button class="btn btn-danger" onclick="removeProduct(this,\''+product.name+'\')"></button>').append(
 					$('<i class="fas fa-trash-alt"></i>')))))
@@ -94,4 +114,12 @@ function updateCount () {
 			$('#total').text('Total: $'+ getTotal())
 		}
 	})
+}
+
+function isEmpty (){
+	if(_cart.length < 1){
+		return 0
+	}else{
+		return 1
+	}
 }
