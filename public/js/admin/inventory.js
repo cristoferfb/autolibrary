@@ -41,17 +41,17 @@ function getEditForm (product, index) {
 
 // update product info from edition form
 function setProduct (id) {
-	if (!id) {
+	if (id === undefined) {
 		id = _inventory.length
 		_inventory.push({})
-		$('#productName').val() && (_inventory[id].name = $('#productName').val())
+		$('#productName').val()  && (_inventory[id].name  = $('#productName').val())
 		$('#productValue').val() && (_inventory[id].value = parseInt($('#productValue').val()))
-		$('#productImg').val() && (_inventory[id].img = $('#productImg').val())
+		$('#productImg').val()   && (_inventory[id].img   = $('#productImg').val())
 		$('#productStock').val() && (_inventory[id].stock = parseInt($('#productStock').val()))
 	} else {
-		$('#productName'+id).val() && (_inventory[id].name = $('#productName'+id).val())
+		$('#productName'+id).val()  && (_inventory[id].name  = $('#productName'+id).val())
 		$('#productValue'+id).val() && (_inventory[id].value = parseInt($('#productValue'+id).val()))
-		$('#productImg'+id).val() && (_inventory[id].img = $('#productImg'+id).val())
+		$('#productImg'+id).val()   && (_inventory[id].img   = $('#productImg'+id).val())
 		$('#productStock'+id).val() && (_inventory[id].stock = parseInt($('#productStock'+id).val()))
 	}
 	$('#productName').val('')
@@ -77,7 +77,6 @@ function importFromCsv() {
 			},
 			complete: () => $("#attachment").val('')
 		}))
-
 }
 
 // remove a product form the inventory
